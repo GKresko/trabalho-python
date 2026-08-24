@@ -1,19 +1,21 @@
+#importação das bibliotecas necessárias
 import random
 import pygame
-from Nave import Nave
-from Asteroid import Asteroid
+from Nave import Nave #import da classe nave asterior e explosão, que obviamente foi chamada na main
+from Asteroid import Asteroid 
 from Explosao import Explosao
 
-
+#criação da classe 'jogo',
 class Jogo:
     """Controlador do jogo: guarda os elementos e roda o loop principal."""
 
-    def __init__(self, largura=800, altura=600):
-        pygame.init()                                        # liga os modulos do pygame
-        self.largura = largura
+    def __init__(self, largura=800, altura=600): #metodo construtor da classe
+        #recebendo altura = 600 e largura = 800, por padrão para criar a tela do jogo
+        pygame.init()  # liga os modulos do pygame
+        self.largura = largura #self = valor recebido será guardado no largura, pelo self.largura
         self.altura = altura
-        self.tela = pygame.display.set_mode((self.largura, self.altura))  # cria a janela
-        pygame.display.set_caption("Space Shooter - POO com Pygame")
+        self.tela = pygame.display.set_mode((self.largura, self.altura))  # cria a janela do jogo
+        pygame.display.set_caption("Space Shooter - POO com Pygame") #método do pygame
 
         self.clock = pygame.time.Clock()  # controla a taxa de quadros
         self.fps = 60                     # quadros por segundo
@@ -29,24 +31,32 @@ class Jogo:
             (random.randint(0, largura), random.randint(0, altura), random.randint(1, 2))
             for _ in range(90)
         ]
+        #.random = valores aleatorios
+        # randint = retorna um valor inteiro aleatorio entre os valores passados como parametro
+        # range = retorna uma sequencia de numeros, nesse caso de 0 a 90
 
         # Elementos do jogo
-        self.nave = Nave(self.largura, self.altura)
+        self.nave = Nave(self.largura, self.altura) 
+        #instanciando nave + asteroide, passando largura e altura da tela como parametro
         self.asteroide = Asteroid(self.largura, self.altura)
         self.explosoes = []  # efeitos visuais ativos
 
+    # método p reiniciar partida, mantendo a janela aberta
     def reiniciar(self):
         """Reinicia a partida do zero, mantendo a janela aberta."""
-        self.pontos = 0
-        self.fim_de_jogo = False
-        self.nave = Nave(self.largura, self.altura)
-        self.asteroide = Asteroid(self.largura, self.altura)
-        self.explosoes = []
+        self.pontos = 0 #reiniciar sem fechar/abrir
+        self.fim_de_jogo = False #pontuacao zerada, fim de jogo falso
+        self.nave = Nave(self.largura, self.altura) #instanciando nave + 
+        # asteroide, passando largura e altura da tela como parametro
+        self.asteroide = Asteroid(self.largura, self.altura) #instanciando asteroide
+        self.explosoes = [] #instanciando explosoes
 
+
+#leitura de todos os eventos do game (teclas e movimentações do usuário) 
     def processar_eventos(self):
         """Lê a fila de eventos do pygame (fechar janela, teclado)."""
         for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:        # clicou no X da janela
+            if evento.type == pygame.QUIT:        # clicou no X da janela, encerrando o jogo
                 self.rodando = False
                 continue
 
@@ -77,7 +87,9 @@ class Jogo:
                 # BÔNUS: o asteroide só é resetado quando a vida acaba,
                 # trocando de cor a cada tiro recebido.
                 if self.asteroide.receber_dano():           # True = foi destruido
-                    self.explosoes.append(
+                    self.explosoes.append(  
+                    #append sendo usado p inserir explosão na lista de explosões
+                    #append = inserir elemento no final da lista
                         Explosao(self.asteroide.rect.center, self.asteroide.raio)
                     )
                     self.asteroide.iniciar_status()         # 2. reseta o asteroide
@@ -90,7 +102,8 @@ class Jogo:
 
     def atualizar(self):
         """Avança um frame de toda a lógica do jogo."""
-        for explosao in self.explosoes[:]:
+        for explosao in self.explosoes[:]:  #self.explosoes = explosao sendo atualizada
+            # pois o self = representa o próprio objeto que está usando aquele método
             explosao.atualizar()
             if explosao.terminou:
                 self.explosoes.remove(explosao)  # limpa efeitos que acabaram
@@ -105,8 +118,9 @@ class Jogo:
     def desenhar_hud(self):
         """Desenha o placar e as informações na tela."""
         texto_pontos = self.fonte.render(f"Pontos: {self.pontos}", True, (235, 235, 245))
+        #.render = transforma texto em imagem
         self.tela.blit(texto_pontos, (16, 14))
-
+        #blit = coloca a imagem na tela, na posicao '16, 14' 
         # Barra de vida do asteroide: quadrado cheio = vida restante
         rotulo = self.fonte.render("Asteroide:", True, (150, 155, 170))
         self.tela.blit(rotulo, (16, 42))
@@ -139,7 +153,7 @@ class Jogo:
         self.tela.blit(dica, dica.get_rect(center=(self.largura // 2, self.altura // 2 + 55)))
 
     def desenhar(self):
-        """Redesenha o quadro inteiro, de trás para frente."""
+        """A cada repetição do jogo, o quadro inteiro é desenhado do zero, de trás para frente"""
         self.tela.fill((15, 15, 25))  # limpa a tela (fundo do espaco)
 
         for x, y, tam in self.estrelas:

@@ -4,6 +4,8 @@ import pygame
 class ElementoJogo:
     """Classe base (superclasse) de todos os objetos do jogo."""
 
+    # refine as areas e posicoes usadas nas colisoes, bem como cor de desenho e 
+    #pixels por frame (velocidade) de cada elemento do jogo.
     def __init__(self, x, y, largura, altura, cor=(255, 255, 255), velocidade=5):
         self.rect = pygame.Rect(x, y, largura, altura)  # area/posicao usada nas colisoes
         self.cor = cor                                  # cor de desenho

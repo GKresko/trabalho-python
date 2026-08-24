@@ -7,7 +7,7 @@ class Nave(ElementoJogo):
 
     def __init__(self, largura_tela, altura_tela, velocidade=6, cor=(0, 255, 100)):
         # Herança: inicializa a classe base já centralizada na parte de baixo da tela
-        super().__init__(
+        super().__init__(   #classe mae ElementoJogo. 
             x=largura_tela // 2 - 20,
             y=altura_tela - 60,
             largura=40,
@@ -64,7 +64,7 @@ class Nave(ElementoJogo):
         y_tiro = self.rect.top - self.altura_tiro
 
         tiro = pygame.Rect(x_tiro, y_tiro, self.largura_tiro, self.altura_tiro)
-        self.tiros.append(tiro)  # entra na lista de tiros ativos
+        self.tiros.append(tiro)  # entra na lista de tiros ativos - pelo append
 
     def atualizar_tiros(self):
         # =========================================================================
@@ -140,7 +140,7 @@ class Nave(ElementoJogo):
         ]
         pygame.draw.polygon(tela, self.cor, fuselagem)       # preenchimento
         pygame.draw.polygon(tela, cor_clara, fuselagem, 2)   # contorno claro
-
+    
         # Cabine do piloto
         pygame.draw.circle(tela, (150, 225, 255), (cx, r.top + 16), 5)
         pygame.draw.circle(tela, (40, 80, 110), (cx, r.top + 16), 5, 1)

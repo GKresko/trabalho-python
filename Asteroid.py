@@ -87,9 +87,10 @@ class Asteroid(ElementoJogo):
         indice = min(len(self.CORES_DANO) - 1, self.vida_maxima - self.vida)
         return self.CORES_DANO[indice]
 
+        #gera o asteroide com formato irregular
     def _gerar_contorno(self):
         """Gera os vértices (relativos ao centro) de um polígono irregular."""
-        lados = random.randint(9, 12)
+        lados = random.randint(9, 12)   #usa um random p verificar quantas vertices vai existir o asteroide
         pontos = []
         for i in range(lados):
             ang = math.tau * i / lados          # distribui os vertices no circulo

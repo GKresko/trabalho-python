@@ -2,6 +2,13 @@
 
 Implementação dos 4 TODOs do projeto base + itens de bônus.
 
+# Alunos
+Brian Cavalheiro
+Giovanna Rosa
+Guilherme Tavares 
+Gustavo Claudino
+
+
 ## Como rodar
 
 ```
